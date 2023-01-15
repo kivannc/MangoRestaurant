@@ -36,7 +36,7 @@ public class ProductService : BaseService, IProductService
     {
         return await SendAsync<T>(new ApiRequest()
         {
-            ApiType = SD.ApiType.GET,
+            ApiType = SD.ApiType.POST,
             Url = SD.ProductAPIBase + "/api/products",
             AccessToken = "",
             Data = productDto
