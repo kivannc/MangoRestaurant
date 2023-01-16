@@ -30,18 +30,18 @@ public static class SD
         {
             new Client()
             {
-                ClientId = "Client",
+                ClientId = "client",
                 ClientSecrets = { new Secret("secret".Sha256()) },
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
                 AllowedScopes = { "read", "write", "profile" }
             },
             new Client()
             {
-                ClientId = "Mango",
+                ClientId = "mango",
                 ClientSecrets = { new Secret("secret".Sha256()) },
                 AllowedGrantTypes = GrantTypes.Code,
-                RedirectUris = { "https://localhost:44300/signin-oidc" },
-                PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
+                RedirectUris = { "https://localhost:7174/signin-oidc", "https://localhost:44300/signin-oidc" },
+                PostLogoutRedirectUris = { "https://localhost:7174/signout-callback-oidc", "https://localhost:44300/signout-callback-oidc" },
                 AllowedScopes = new List<string>
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
