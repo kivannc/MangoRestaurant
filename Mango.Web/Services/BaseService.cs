@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using Mango.Web.Models;
 using Mango.Web.Services.IServices;
@@ -7,7 +8,7 @@ namespace Mango.Web.Services;
 
 public class BaseService : IBaseService
 {
-    
+
     public ResponseDto responseModel { get; set; }
 
     public IHttpClientFactory HttpClientFactory { get; set; }
@@ -17,7 +18,7 @@ public class BaseService : IBaseService
         HttpClientFactory = httpClientFactory;
         responseModel = new ResponseDto();
     }
-    
+
     public async Task<T> SendAsync<T>(ApiRequest apiRequest)
     {
         try
@@ -32,7 +33,11 @@ public class BaseService : IBaseService
                 message.Content = new StringContent(JsonSerializer.Serialize(apiRequest.Data), Encoding.UTF8, "application/json");
             }
 
-            HttpResponseMessage apiResponse = null;
+            if (!string.IsNullOrEmpty(apiRequest.AccessToken))
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.AccessToken);
+            }
+
             switch (apiRequest.ApiType)
             {
                 case SD.ApiType.GET:
@@ -51,7 +56,7 @@ public class BaseService : IBaseService
                     message.Method = HttpMethod.Get;
                     break;
             }
-            apiResponse = await client.SendAsync(message);
+            var apiResponse = await client.SendAsync(message);
 
             var apiContent = await apiResponse.Content.ReadAsStringAsync();
             var responseDto = JsonSerializer.Deserialize<T>(apiContent, new JsonSerializerOptions()
