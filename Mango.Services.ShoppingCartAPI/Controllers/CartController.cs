@@ -37,20 +37,18 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
         }
 
         [HttpPost("AddCart")]
-        public async Task<object> GetCart(CartDto cartDto)
+        public async Task<object> AddCart(CartDto cartDto)
         {
             try
             {
-                CartDto updateCartDto = await _cartRepository.CreateUpdateCart(cartDto:cartDto);
-                _response.Result = updateCartDto;
+                CartDto cartDt = await _cartRepository.CreateUpdateCart(cartDto);
+                _response.Result = cartDt;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string>() { e.Message };
-
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
             }
-
             return _response;
         }
 
@@ -73,7 +71,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
         }
 
         [HttpDelete("RemoveCart")]
-        public async Task<object> RemoveCart(int cartId)
+        public async Task<object> RemoveCart([FromBody]int cartId)
         {
             try
             {

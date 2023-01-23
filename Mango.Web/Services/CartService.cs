@@ -19,7 +19,7 @@ public class CartService : BaseService, ICartService
         return await SendAsync<T>(new ApiRequest()
         {
             ApiType = SD.ApiType.GET,
-            Url = SD.ProductAPIBase + "/api/cart/GetCart/" + userId,
+            Url = SD.ShoppingCartAPIBase + "/api/cart/GetCart/" + userId,
             AccessToken = token,
         });
     }
@@ -51,14 +51,10 @@ public class CartService : BaseService, ICartService
         return await SendAsync<T>(new ApiRequest()
         {
             ApiType = SD.ApiType.DELETE,
-            Url = SD.ShoppingCartAPIBase + "/api/cart/RemoveCart",
+            Url = SD.ShoppingCartAPIBase + "/api/cart/RemoveCart/" ,
             AccessToken = token,
             Data = cardId
         });
     }
-
-    public void Dispose()
-    {
-        throw new NotImplementedException();
-    }
+    
 }
