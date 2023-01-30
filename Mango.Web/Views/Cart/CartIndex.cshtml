@@ -64,9 +64,20 @@
                     
                     <div class="row">
                         <div class="col-6">
-                            <span>Coupon:</span>
-                            <input />
-                            <button type="submit" class="btn-success"> Apply </button>
+                            @if (string.IsNullOrEmpty(Model.CartHeader.CouponCode))
+                            {
+                                <div class="input-group">
+                                    <input asp-for="CartHeader.CouponCode" type="text" class="form-control" name="CouponCode" placeholder="Enter Coupon Code" />
+                                    <button asp-action="ApplyCoupon" type="submit" class="btn btn-outline-success">Apply</button>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="input-group">
+                                    <input asp-for="CartHeader.CouponCode" type="text" class="form-control" name="CouponCode" value="@Model.CartHeader.CouponCode" />
+                                    <button asp-action="RemoveCoupon" type="submit" class="btn btn-outline-danger">Remove</button>
+                                </div>
+                            }
                         </div>
                         <div class="col-6 text-end">
                             <span class="text-danger" style="font-size:21px;">  Order Total : @Model.CartHeader.OrderTotal.ToString("c") <br /></span>
